@@ -9,6 +9,18 @@ export class ContactsController {
         public readonly contactService:ContactService
     ){}
 
+    public getContacts = (req:Request,res:Response)=>{
+
+
+
+      
+        this.contactService.getContacts(req.body.user.id)
+            .then( resp =>  GeneralMessages.getData(resp,res)  )
+            .catch( err=> ErrorMessages.handleError(err,res) )
+    
+       
+    }
+
     public createContact = (req:Request,res:Response)=>{
 
         const [error,contactCreateDto] = ContactCreateDto.create(req.body)

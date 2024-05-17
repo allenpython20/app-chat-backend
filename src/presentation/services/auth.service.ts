@@ -20,7 +20,7 @@ export class AuthService {
 
             const {password,...userEntity} = UserEntity.fromObject(user)
 
-            const token = await JwtAdapter.generateToken({id:userEntity.id})
+            const token = await JwtAdapter.generateToken({id:userEntity.id},'24h')
 
             return {user:userEntity,token}
 
@@ -37,17 +37,31 @@ export class AuthService {
         const user = await UserModel.findOne({email:userLoginDto.email})
         if(!user) throw CustomError.badRequest("Credenciales invalidas")
 
-        try {
+        if(!BcryptAdapter.compare(userLoginDto.password,user.password)){
+            throw CustomError.badRequest("Credenciales invalidas2")
+        }
 
-            if(!BcryptAdapter.compare(userLoginDto.password,user.password)){
-                throw CustomError.badRequest("Credenciales invalidas2")
-            }
+        try {
 
             const {password,...userEntity} = UserEntity.fromObject(user)
 
             const token = await JwtAdapter.generateToken({id:userEntity.id})
 
             return {user:userEntity,token}
+            
+        } catch (error) {
+            throw CustomError.internalServer(`${error}`)
+        }
+
+
+    }
+
+    async verifyToken(user:UserEntity){
+    
+        try {
+    
+            return {user}
+        
             
         } catch (error) {
             throw CustomError.internalServer(`${error}`)

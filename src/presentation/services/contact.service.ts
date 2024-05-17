@@ -1,11 +1,25 @@
 
+import mongoose from "mongoose";
 import { ContactModel, UserModel } from "../../data/mongo";
-import { ContactCreateDto, CustomError, ErrorMessages, GeneralMessages } from "../../domain";
+import { ContactCreateDto, ContactEntity, CustomError, ErrorMessages, GeneralMessages, MessageEntity } from "../../domain";
 
 
 
 export class ContactService {
 
+    async getContacts(idUser:string){
+        try {
+
+            const contacts = await ContactModel.find({user:idUser}).populate('lastMessage')
+    
+            const contactsEntities = contacts.map( (contact) =>  ContactEntity.fromObject(contact) )
+
+            return contactsEntities
+
+        } catch (error) {
+            throw CustomError.internalServer(`${error}`)
+        }
+    }
 
     async createContact(contactCreateDto:ContactCreateDto){
 
@@ -22,14 +36,16 @@ export class ContactService {
         }
 
         try {
-
-        
-
+           
+            if(!contactCreateDto.alias){
+                contactCreateDto.alias = contactExists.name
+            }
 
             const contact = new ContactModel(contactCreateDto)
+
             await contact.save()
 
-            return contact
+            return ContactEntity.fromObject(contact)
 
         } catch (error) {
             throw CustomError.internalServer(`${error}`)

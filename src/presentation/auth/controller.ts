@@ -38,4 +38,14 @@ export class AuthController{
 
 
     }
+
+    verifyToken = (req:Request,res:Response)=>{
+        const user = req.body.user;
+        this.authService.verifyToken(user)
+            .then( resp => GeneralMessages.getData(resp,res) )
+            .catch( err => ErrorMessages.handleError(err,res) )
+
+
+    }
+
 }

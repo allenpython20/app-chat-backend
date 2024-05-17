@@ -12,6 +12,7 @@ export class MessagesRoutes {
         const controller = new MessagesController(new MessageService)
 
         router.get('/',[AuthMiddleware.validateJWT],controller.getMessages)
+        router.get('/:idChat',[AuthMiddleware.validateJWT],controller.getMessagesById)
         router.post('/',[AuthMiddleware.validateJWT],controller.createMessage)
 
         return router

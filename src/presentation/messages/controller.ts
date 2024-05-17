@@ -14,6 +14,12 @@ export class MessagesController {
         .then( resp => GeneralMessages.getData(resp,res) )
     }
 
+    getMessagesById = (req:Request,res:Response) => {
+        console.log(req.params.idChat)
+        this.messagesService.getMessagesById(req.params.idChat)
+         .then( resp => GeneralMessages.getData(resp,res) )
+    }
+
     createMessage = (req:Request,res:Response) => {
 
         const [error,createMessageDto] = CreateMessageDto.create(req.body)

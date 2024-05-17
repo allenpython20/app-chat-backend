@@ -10,6 +10,8 @@ export * from './messages-responses/error-messages'
 
 export * from './entities/user.entity'
 export * from './entities/message.entity'
+export * from './entities/contact.entity'
+
 
 export * from './types/dto.type'
 export * from './types/entity.type'

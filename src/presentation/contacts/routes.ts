@@ -11,6 +11,7 @@ export class ContactsRoutes {
         const router = Router()
         const controller = new ContactsController(new ContactService)
 
+        router.get('/',[AuthMiddleware.validateJWT],controller.getContacts)
         router.post('/',[AuthMiddleware.validateJWT],controller.createContact)
 
         return router

@@ -7,7 +7,6 @@ export class CreateMessageDto {
     private constructor(
         public body:string,
         public caption: string,
-        public fromMe: boolean,
         public type:string,
         public msgTime: number,
         public idChat:string,
@@ -18,7 +17,6 @@ export class CreateMessageDto {
         const {body,caption='',fromMe,type,idChat,user} = object
 
         if(!body) return ['body is required']
-        if(!fromMe) return ['fromMe is required']
         if(!type) return ['type is required']
         if(!MessageModelEnum.types.includes(type)) return [`type must be ${MessageModelEnum.types}`]
         if(!user) return ['user is required']
@@ -26,7 +24,7 @@ export class CreateMessageDto {
         const author = user.id
         const msgTime = Date.now();
 
-        return [undefined,new CreateMessageDto(body,caption,fromMe,type,msgTime,idChat,author)]
+        return [undefined,new CreateMessageDto(body,caption,type,msgTime,idChat,author)]
     }
 
 }

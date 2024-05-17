@@ -12,7 +12,7 @@ export class MessageService{
 
             const messagesEntities = messages.map( (message) => MessageEntity.fromObject(message) )
 
-            console.log(messagesEntities)
+           
 
             return messagesEntities
 
@@ -20,8 +20,22 @@ export class MessageService{
             throw CustomError.internalServer(`${error}`)
         }
       
-        
+    }
 
+    async getMessagesById(idChat:string){
+
+        try{
+
+        
+            const messages = await MessageModel.find({idChat})
+            const messagesEntities = messages.map( (message) => MessageEntity.fromObject(message) )
+
+            return messagesEntities
+
+        }catch(error){
+            throw CustomError.internalServer(`${error}`)
+        }
+      
     }
 
     async createMessage(createMessageDto:CreateMessageDto){

@@ -6,7 +6,8 @@ export class ContactCreateDto {
 
     private constructor(
         public type:string,
-        public idLastMessage:string,
+        public alias:string,
+        public lastMessage:null,
         public messagesPendings: number,
         public user:string,
         public idContact: string,
@@ -14,7 +15,7 @@ export class ContactCreateDto {
     ){ }
 
     static create( object:Dto ):[string?,ContactCreateDto?]{
-        const {type,idLastMessage,user,idContact} = object
+        const {type,alias='',lastMessage='',user,idContact} = object
         
        
         if(!type) return ['type es required']
@@ -32,7 +33,7 @@ export class ContactCreateDto {
         const idChat = `${mayorId}_${menorId}@c.us`
       
        
-        return [undefined,new ContactCreateDto(type,idLastMessage,messagesPendings,idUser,idContact,idChat)]
+        return [undefined,new ContactCreateDto(type,alias,null,messagesPendings,idUser,idContact,idChat)]
 
     }
 

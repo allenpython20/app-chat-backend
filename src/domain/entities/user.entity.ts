@@ -8,16 +8,16 @@ export class UserEntity {
         public readonly email:string,
         public readonly password:string,
         public readonly role:string[],
-
+        public readonly img:string
 
     ){ }
     
     static fromObject(object: Entity){
 
 
-        const {id,_id,password,name,email,role} = object
+        const {id,_id,password,name,email,role,img} = object
 
-        return new UserEntity(id||_id,name,email,password,role)
+        return new UserEntity(id||_id,name,email,password,role,img)
 
     }
 }

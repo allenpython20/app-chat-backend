@@ -3,31 +3,32 @@ import cors from 'cors'
 
 interface Options {
     port:number;
-    routes:Router
+
 }
 
 export class Server {
 
     public readonly app = express()
-
     private readonly port;
-    private readonly routes;
+
 
     constructor(options:Options){
-        const {port,routes} = options
+        const {port} = options
         this.port = port
-        this.routes = routes
-
+        
         this.configuration()
     }
 
+    setRoutes(routes:Router){
+        this.app.use(routes)
+
+    }
 
     async configuration(){
 
         this.app.use( express.json() )
         this.app.use(cors())
-        this.app.use(this.routes)
-
+        
     }
 
     async start(){

@@ -11,9 +11,10 @@ export class ContactService {
         try {
 
             const contacts = await ContactModel.find({user:idUser}).populate('lastMessage')
+           
     
             const contactsEntities = contacts.map( (contact) =>  ContactEntity.fromObject(contact) )
-
+     
             return contactsEntities
 
         } catch (error) {
@@ -45,7 +46,9 @@ export class ContactService {
 
             await contact.save()
 
-            return ContactEntity.fromObject(contact)
+            const newContact = await contact.populate('lastMessage')
+          
+            return ContactEntity.fromObject(newContact)
 
         } catch (error) {
             throw CustomError.internalServer(`${error}`)

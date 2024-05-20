@@ -13,22 +13,24 @@ export class ContactEntity {
         public readonly messagesPendings:number,
         public readonly idContact:string,
         public readonly idChat:string,
+        public readonly img:string,
     ){
 
     }
 
     static fromObject(object:Entity){
 
-        const {id,_id,alias='',lastMessage,messagesPendings,type,idContact,idChat} = object      
+        const {id,_id,alias='',lastMessage,messagesPendings,type,idContact,idChat,img} = object      
 
         let lastMessageEntity = {}
+
       
         if(lastMessage){
           
             lastMessageEntity =  MessageEntity.fromObject(lastMessage)
         }
 
-        return new ContactEntity(id||_id,alias,lastMessageEntity,type,messagesPendings,idContact,idChat)
+        return new ContactEntity(id||_id,alias,lastMessageEntity,type,messagesPendings,idContact,idChat,img)
 
 
     }
